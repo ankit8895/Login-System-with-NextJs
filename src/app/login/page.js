@@ -1,18 +1,44 @@
 'use client';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
 
-  const onLogin = async () => {};
-  return (
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user.email.length > 0 && user.password.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
+
+  const onLogin = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/users/login', user);
+      router.push('/profile');
+    } catch (error) {
+      console.log('Login Failed', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return loading ? (
+    <div className='d-flex flex-column justify-content-center align-items-center'>
+      <h1>Processing...</h1>
+    </div>
+  ) : (
     <div className='d-flex flex-column justify-content-center align-items-center'>
       <h1 className='mb-3'>Login</h1>
       <Form className='mb-3'>
@@ -39,6 +65,7 @@ export default function LoginPage() {
           variant='primary'
           type='submit'
           onClick={onLogin}
+          disabled={buttonDisabled}
         >
           Signup here!
         </Button>

@@ -1,19 +1,48 @@
 'use client';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 export default function SignupPage() {
+  const router = useRouter();
   const [user, setUser] = useState({
     email: '',
     password: '',
     username: '',
   });
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onSignup = async () => {};
-  return (
+  useEffect(() => {
+    if (
+      user.email.length > 0 &&
+      user.password.length > 0 &&
+      user.username.length > 0
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
+
+  const onSignup = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/users/signup', user);
+      router.push('/login');
+    } catch (error) {
+      console.log('Signup failed', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return loading ? (
+    <div className='d-flex flex-column justify-content-center align-items-center'>
+      <h1>Processing...</h1>
+    </div>
+  ) : (
     <div className='d-flex flex-column justify-content-center align-items-center'>
       <h1 className='mb-3'>Signup</h1>
       <Form className='mb-3'>
@@ -49,6 +78,7 @@ export default function SignupPage() {
           variant='primary'
           type='submit'
           onClick={onSignup}
+          disabled={buttonDisabled}
         >
           Signup here!
         </Button>
