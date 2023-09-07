@@ -30,20 +30,20 @@ export default function VerifyEmailPage() {
   }, [token]);
 
   return (
-    <div className='d-flex flex-column justify-content-center align-items-center'>
-      <h1 className='fs-4'>Verify Email</h1>
-      <h2>{token ? `${token}` : 'no token'}</h2>
+    <div className='h-100 w-100 d-flex flex-column justify-content-center align-items-center border border-5'>
+      <h3 className='fs-3 fw-bolder'>Verify Email</h3>
+      <h3 className='fw-bolder'>{token ? `${token}` : 'no token'}</h3>
 
       {verified && (
         <div>
-          <h2>Email Verified</h2>
+          <h3 className='fw-bolder'>Email Verified</h3>
           <Link href='/login'>Login</Link>
         </div>
       )}
 
       {error && (
         <div>
-          <h2>Error</h2>
+          <h3 className='fw-bolder'>Error</h3>
         </div>
       )}
     </div>
