@@ -1,4 +1,4 @@
-Next.js Authentication App
+# Next.js Authentication App
 
 https://login-system-next.netlify.app
 
@@ -23,3 +23,13 @@ Key Features:
 - Error Handling and Validation: Implements comprehensive error handling and validation techniques to provide users with clear feedback on any issues.
 
 - Responsive Design: Ensures that the app is accessible and user-friendly across various devices, including desktops, tablets, and mobile phones.
+
+Tech Stack:
+
+- Frontend: Next.js, React, React-Bootstrap
+
+- Backend: Node.js (Express.js), Database (MongoDB)
+
+- Authentication: JWT
+
+- Deployment: Netlify
